@@ -20,15 +20,13 @@ if place_meeting(x, y + vmove, int_solido){
 		y += sign(vmove)
 	vmove = 0
 }
+y += vmove
 
 //  COLICION PAREDES/INTERFAZ
-if (x < 16) x = 16;
-if (x > room_width-16) x = room_width-16;
-if (y < 16) y = 16;
-if (y > 32*control.N_interfaz - 16) y = 32*control.N_interfaz - 16;
+x = clamp(x, 16, room_width - 16)
+y = clamp(y, 16, 32 * control.N_interfaz - 16)
 
-y += vmove
-//Disparar con Espacio
+//Disparar con el Mouse
 if mouse_check_button(mb_left){
 	step++
 	if step = 8{
@@ -52,37 +50,40 @@ draw_set_color(c_black)
 for(var a = 0; a < instance_number(obj_muro); a++)
 {
 	var muro = instance_find(obj_muro, a), mx = muro.x, my = muro.y
-	if sqrt(sqr(mx - x) + sqr(my - y))
-	var ne = sqrt(sqr(mx - x) + sqr(my - y)), xne = (mx - x) / ne, yne = (my - y) / ne
-	var no = sqrt(sqr(mx + 32 - x) + sqr(my - y)), xno = (mx + 32 - x) / no, yno = (my - y) / no
-	var se = sqrt(sqr(mx - x) + sqr(my + 32 - y)), xse = (mx - x) / se, yse = (my + 32 - y) / se
-	var so = sqrt(sqr(mx + 32 - x) + sqr(my + 32 - y)), xso = (mx + 32 - x) / so, yso = (my + 32 - y) / so
-	//Dibujar las sombras dependiendo desde dónde se vean (para evitar tapar la caja con su propia sombra)
-	if x - 32 < mx{
-		if y > my{
-			draw_triangle(mx, my, mx + 32, my, mx + xne * 1000, my + yne * 1000, false)
-			draw_triangle(mx + 32, my + 32, mx + 32, my, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
-			draw_triangle(mx + 32, my, mx + xne * 1000, my + yne * 1000, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
+	//Dibujar solo las sombras de las cajas cercanas
+	if sqrt(sqr(mx - x) + sqr(my - y)) < 400{
+		var ne = sqrt(sqr(mx - x) + sqr(my - y)), xne = (mx - x) / ne, yne = (my - y) / ne
+		var no = sqrt(sqr(mx + 32 - x) + sqr(my - y)), xno = (mx + 32 - x) / no, yno = (my - y) / no
+		var se = sqrt(sqr(mx - x) + sqr(my + 32 - y)), xse = (mx - x) / se, yse = (my + 32 - y) / se
+		var so = sqrt(sqr(mx + 32 - x) + sqr(my + 32 - y)), xso = (mx + 32 - x) / so, yso = (my + 32 - y) / so
+		//Dibujar las sombras dependiendo desde dónde se vean (para evitar tapar la caja con su propia sombra)
+		if x - 32 < mx{
+			if y > my{
+				draw_triangle(mx, my, mx + 32, my, mx + xne * 1000, my + yne * 1000, false)
+				draw_triangle(mx + 32, my + 32, mx + 32, my, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
+				draw_triangle(mx + 32, my, mx + xne * 1000, my + yne * 1000, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
+			}
+			if y - 32 < my{
+				draw_triangle(mx + 32, my, mx + 32, my + 32, mx + 32 + xno * 1000, my + yno * 1000, false)
+				draw_triangle(mx, my + 32, mx + 32, my + 32, mx + xse * 1000, my + 32 + yse * 1000, false)
+				draw_triangle(mx + 32, my + 32, mx + 32 + xno * 1000, my + yno * 1000, mx + xse * 1000, my + 32 + yse * 1000, false)
+			}
 		}
-		if y - 32 < my{
-			draw_triangle(mx + 32, my, mx + 32, my + 32, mx + 32 + xno * 1000, my + yno * 1000, false)
-			draw_triangle(mx, my + 32, mx + 32, my + 32, mx + xse * 1000, my + 32 + yse * 1000, false)
-			draw_triangle(mx + 32, my + 32, mx + 32 + xno * 1000, my + yno * 1000, mx + xse * 1000, my + 32 + yse * 1000, false)
-		}
-	}
-	if x > mx{
-		if y > my{
-			draw_triangle(mx, my, mx + 32, my, mx + 32 + xno * 1000, my + yno * 1000, false)
-			draw_triangle(mx, my, mx, my + 32, mx + xse * 1000, my + 32 + yse * 1000, false)
-			draw_triangle(mx, my, mx + 32 + xno * 1000, my + yno * 1000, mx + xse * 1000, my + 32 + yse * 1000, false)
-		}
-		if y - 32 < my{
-			draw_triangle(mx, my, mx, my + 32, mx + xne * 1000, my + yne * 1000, false)
-			draw_triangle(mx, my + 32, mx + 32, my + 32, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
-			draw_triangle(mx, my + 32, mx + xne * 1000, my + yne * 1000, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
+		if x > mx{
+			if y > my{
+				draw_triangle(mx, my, mx + 32, my, mx + 32 + xno * 1000, my + yno * 1000, false)
+				draw_triangle(mx, my, mx, my + 32, mx + xse * 1000, my + 32 + yse * 1000, false)
+				draw_triangle(mx, my, mx + 32 + xno * 1000, my + yno * 1000, mx + xse * 1000, my + 32 + yse * 1000, false)
+			}
+			if y - 32 < my{
+				draw_triangle(mx, my, mx, my + 32, mx + xne * 1000, my + yne * 1000, false)
+				draw_triangle(mx, my + 32, mx + 32, my + 32, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
+				draw_triangle(mx, my + 32, mx + xne * 1000, my + yne * 1000, mx + 32 + xso * 1000, my + 32 + yso * 1000, false)
+			}
 		}
 	}
 }
+//Dibujar neblina a la distancia
 for(var b = 0; b < 10; b++){
 	var radio = 100 + 25 * b, radio_2 = radio + 25
 	if b = 9

@@ -9,3 +9,5 @@ bala_step = 0
 detecion = false
 vida = 4
 recoil = 0
+dir_spd = random_range(-1, 1)
+dir_step = irandom(120)

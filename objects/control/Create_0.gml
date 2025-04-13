@@ -1,4 +1,4 @@
-
+randomize()
 //  SELECCION DE ENTORNO
 #macro inicio 1
 #macro juegos 2

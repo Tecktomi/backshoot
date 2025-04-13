@@ -1,61 +1,45 @@
-if not alerta
-{
-	var cx = x;
-    var cy = y;
-	var ox = x + 150*cos(dir);
-    var oy = y + 150*sin(dir);
-	
-	var angulo = 60*(pi/180)
-	
-	var angle1 = angulo*(1);
-	var xp1 = cx + (ox-cx)*cos(angle1) - (oy-cy)*sin(angle1)
-	var yp1 = cy + (ox-cx)*sin(angle1) + (oy-cy)*cos(angle1)
-	
-	var angle2 = angulo*(-1);
-	var xp2 = cx + (ox-cx)*cos(angle2) - (oy-cy)*sin(angle2)
-	var yp2 = cy + (ox-cx)*sin(angle2) + (oy-cy)*cos(angle2)
-	
-	var v1_x = x, v1_y = y;
-	var v2_x = xp1, v2_y = yp1;
-	var v3_x = xp2, v3_y = yp2;
-	
-	draw_set_color(c_red);
-	draw_set_alpha(0.5);
-
-	draw_primitive_begin(pr_trianglelist);
-	draw_vertex(v1_x, v1_y);
-	draw_vertex(v2_x, v2_y);
-	draw_vertex(v3_x, v3_y);
-	draw_primitive_end();
-
-	draw_set_alpha(1);
-
-	var px = obj_jugador.x;
-	var py = obj_jugador.y;
-
-	var area_total = triangle_area(v1_x, v1_y, v2_x, v2_y, v3_x, v3_y);
-
-	var area1 = triangle_area(px, py, v2_x, v2_y, v3_x, v3_y);
-	var area2 = triangle_area(v1_x, v1_y, px, py, v3_x, v3_y);
-	var area3 = triangle_area(v1_x, v1_y, v2_x, v2_y, px, py);
-
-	if (abs(area1 + area2 + area3 - area_total) < 0.01) {
-		detecion = true
-	} else {
-		detecion = false
+if not alerta{
+	draw_set_color(c_red)
+	draw_set_alpha(0.3)
+	var angle = 60, radio = 150
+	//Triángulo de visión
+	for(var a = -angle / 10; a < angle / 10; a++){
+		var cosa = cos(degtorad(dir + a * 10)), sina = sin(degtorad(dir + a * 10))
+		var cosb = cos(degtorad(dir + a * 10 + 10)), sinb = sin(degtorad(dir + a * 10 + 10))
+		draw_triangle(x, y, x + cosa * radio, y - sina * radio, x + cosb * radio, y - sinb * radio, false)
 	}
-	
-	var magnitud = random_range(0, 0.1);
-	dir = dir+magnitud
-	
-	if ( abs(dir) > 1000 ) { dir = dir%pi }
-	
-	
+	draw_set_color(c_black)
+	draw_set_alpha(1)
+	//Detección del jugador
+	if distance_to_object(obj_jugador) < radio{
+		var a = x, b = y
+		angle = point_direction(x, y, obj_jugador.x, obj_jugador.y)
+		if abs(angle_difference(angle, dir)) < 60{
+			angle = degtorad(angle)
+			var cosa = cos(angle), sina = -sin(angle)
+			repeat(150){
+				a += cosa
+				b += sina
+				if position_meeting(a, b, obj_muro)
+					break
+				if position_meeting(a, b, obj_jugador){
+					control.sigilo -= 2
+					break
+				}
+			}
+		}
+	}
+	dir += dir_spd
+	dir_step--
+	if dir_step = 0{
+		dir_step = irandom_range(120, 420)
+		dir_spd = random_range(-1, 1)
+	}
 }
 
 draw_self()
-if (vida <= 0) { instance_destroy() }
-
+if vida <= 0
+	instance_destroy()
 
 if alerta{
 	var jug_angle = point_direction(x, y, obj_jugador.x, obj_jugador.y)
