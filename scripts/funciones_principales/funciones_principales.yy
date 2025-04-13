@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funciones_principales",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funciones_principales",
+  "parent":{
+    "name":"test_1",
+    "path":"test_1.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
