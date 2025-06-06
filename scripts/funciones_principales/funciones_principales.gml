@@ -114,8 +114,8 @@ function crear_cierre(){
 	//  BACKGROUD
 	draw_set_color(make_color_rgb(100, 0, 32))
 	draw_rectangle(0, 0, room_width, room_height, false)
+	draw_set_color(c_black)
 	if not win{
-		draw_set_color(c_black)
 		draw_set_font(font_titulo)
 		draw_text(room_width / 2, 200, "Has Perdido")
 		if control.motivo_perdida = 0
