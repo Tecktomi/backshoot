@@ -6,3 +6,4 @@ bala_x = 0
 bala_y = 0
 bala_step = 0
 recoil = 0
+texto = ""

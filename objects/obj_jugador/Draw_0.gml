@@ -45,7 +45,6 @@ if bala_step > 0{
 	draw_set_alpha(1)
 }
 draw_set_color(c_black)
-
 //Recorrer todas las cajas para dibujar sus sombras
 for(var a = 0; a < instance_number(obj_muro); a++){
 	var muro = instance_find(obj_muro, a), mx = muro.x, my = muro.y

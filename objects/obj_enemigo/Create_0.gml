@@ -1,13 +1,13 @@
 hmove = 0
 vmove = 0
-alerta = false
+alerta = 0
 dir = pi
 step = 0
 bala_x = 0
 bala_y = 0
 bala_step = 0
 detecion = false
-vida = 4
+vida = 2
 recoil = 0
 dir_spd = random_range(-1, 1)
 dir_step = irandom(120)

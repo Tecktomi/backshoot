@@ -18,29 +18,17 @@ function draw_boton(x, y, text, margen = 10, color_fondo = control.c_relleno, co
     }
     return false
 }
-// PA LOS PAJEROS
-function instance_create(x, y, obj, var_struct = {}){
-	return instance_create_layer(x, y, "instances", obj, var_struct)
-}
-
-
-// MENSAJE MECANICAS
-function print_msg(){
-	draw_set_color(c_black)
-	draw_text(100, 80, "CREADORES:\n  Sebastián Cornejo\nAxel Garrido\nTomás Ramdohr\n\nAssets:\n  Ninguno\n\nMecánica : Sigilo y Remordimiento\n ¿Cansado de los típicos HEADSHOOT?... Pues presentamos BACKSHOOT!!!\nEl nuevo modo en el que tu personaje siente profunda culpa por avatir a sus enemigos...\nMátalos por la espalda y no los mires a los ojos, cuanto más de frente sean tus tiros tu indicador de culpa\naumentará hasta que te consuman tus remordimeintos\nElimina a todos los enemigos para ganar, estás contra el tiempo y no dejes que te detecten\n\nMANTEN EL SIGILO\nPasar por el campo de vision de los enemigos te hará perder puntos de sigilo gradualmente\nSi te detectan, perderás!!!")
-}
-
-//  AREA TRIANGULO
-function triangle_area(x1, y1, x2, y2, x3, y3){
-	return abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2);
-}
-
 
 //  TAGGEAR DISPAROS
 function disparar(home = noone){
 	var a = home.x, b = home.y
-	if home.object_index = obj_jugador
+	if home.object_index = obj_jugador{
 		angle = arctan2(mouse_y - b, mouse_x - a)
+		//Los enemigos escuchan disparos si están cerca
+		with obj_enemigo
+			if distance_to_object(obj_jugador) < 200
+				alerta = 60
+	}
 	else{
 		if instance_number(obj_jugador) = 0
 			angle = 0
@@ -51,6 +39,7 @@ function disparar(home = noone){
 	home.recoil += 10
 	hmove = cos(angle)
 	vmove = sin(angle)
+	angle = (10 * floor(radtodeg(-angle / 10)) + 360) mod 360
 	home.bala_step = 8
 	//Moverse pixel por pixel hasta colisionar o salir de la pantalla
 	repeat(500){
@@ -60,11 +49,11 @@ function disparar(home = noone){
 			home.bala_x = a
 			home.bala_y = b
 			if position_meeting(a, b, obj_enemigo){
-				var inst = instance_place(a, b, obj_enemigo)
+				var inst = instance_place(a, b, obj_enemigo), c  = degtorad(inst.dir), d = cos(c), e = sin(c), angle_2 = radtodeg(arctan2(e, d))
 				inst.vida--
-				var angulo = (360 + radtodeg(arctan2(inst.y - obj_jugador.y, inst.x - obj_jugador.x))) mod 360
-				if sqrt(sqr(obj_jugador.x - a) + sqr(obj_jugador.y - b)) < 140 and abs(angle_difference(angulo, inst.dir)) > 120
-					control.tranquilidad -= abs(angle_difference(angulo, inst.dir)) - 120
+				inst.alerta = 300
+				if sqrt(sqr(obj_jugador.x - a) + sqr(obj_jugador.y - b)) < 200 and abs(angle_difference(angle, angle_2)) > 120
+					control.tranquilidad -= (abs(angle_difference(angle, angle_2)) - 120) / 3
 			}
 			return
 		}
