@@ -23,19 +23,55 @@ if not alerta{
 				if position_meeting(a, b, obj_muro)
 					break
 				if position_meeting(a, b, obj_jugador){
-					control.sigilo -= 2
+					control.sigilo--
 					break
 				}
 			}
 		}
 	}
-	dir += dir_spd
+	dir = (dir + dir_spd + 360) mod 360
 	dir_step--
 	if dir_step = 0{
 		dir_step = irandom_range(120, 420)
 		dir_spd = random_range(-1, 1)
 	}
 }
+
+if hmove = 0 and hmove = 0 and random(1) < 0.01{
+	var a = irandom(3)
+	hmove = (a mod 2) - 0.5
+	vmove = floor(a / 2) - 0.5
+}
+
+if place_meeting(x + hmove, y, obj_muro){
+	while not place_meeting(x + sign(hmove), y, obj_muro)
+		x += sign(hmove)
+	hmove = 0
+}
+if x + hmove < 0{
+	x = 0
+	hmove = 0
+}
+if x + hmove > room_width - 32{
+	x = room_width - 32
+	hmove = 0
+}
+x += hmove
+
+if place_meeting(x, y + vmove, obj_muro){
+	while not place_meeting(x, y + sign(vmove), obj_muro)
+		y += sign(vmove)
+	vmove = 0
+}
+if y + vmove < 0{
+	y = 0
+	vmove = 0
+}
+if y + vmove > 32 * (control.N_interfaz - 1){
+	y = 32 * (control.N_interfaz - 1)
+	vmove = 0
+}
+y += vmove
 
 draw_self()
 if vida <= 0

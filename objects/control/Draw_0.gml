@@ -1,41 +1,24 @@
 //  PARAMETROS COMPARTIDOS
-window_set_cursor(cr_default);
-
-
+window_set_cursor(cr_default)
 //  SI ESTAMOS EN EL INICIO
-if (target == inicio)
-{
+if target = inicio{
 	var run = crear_inicio()
-	if ( run == Gsetup ) { target = Gsetup  }
-	if ( run == ajuste ) { target = ajuste  }
+	if run = Gsetup
+		target = Gsetup
+	else if run = ajuste
+		target = ajuste
 }
-
 //  SI ESTAMOS EN EL GAME-SETUP
-if (target == Gsetup)
-{
-	var run = crear_Gsetup()
+if target = Gsetup{
+	crear_Gsetup()
 	target = juegos
-
 }
-
 //  SI ESTAMOS EN EL JUEGO
-if (target == juegos)
-{
-	var run = crear_juegos()
-	if ( run == cierre ) { target = cierre  }
-
-}
-
+if target = juegos and crear_juegos() = cierre
+	target = cierre
 //  SI ESTAMOS EN EL CIERRE
-if (target == cierre)
-{
-	var run = crear_cierre()
-	if ( run == inicio ) { target = inicio  }
-}
-
+if target = cierre and crear_cierre() = inicio
+	target = inicio
 //  SI ESTAMOS EN LOS AJUSTES
-if (target == ajuste)
-{
-	var run = crear_ajuste()
-	if ( run == inicio ) { target = inicio  }
-}
+if target = ajuste and crear_ajuste() = inicio
+	target = inicio

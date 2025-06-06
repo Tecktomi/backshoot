@@ -47,8 +47,7 @@ if bala_step > 0{
 draw_set_color(c_black)
 
 //Recorrer todas las cajas para dibujar sus sombras
-for(var a = 0; a < instance_number(obj_muro); a++)
-{
+for(var a = 0; a < instance_number(obj_muro); a++){
 	var muro = instance_find(obj_muro, a), mx = muro.x, my = muro.y
 	//Dibujar solo las sombras de las cajas cercanas
 	if sqrt(sqr(mx - x) + sqr(my - y)) < 400{
@@ -84,14 +83,13 @@ for(var a = 0; a < instance_number(obj_muro); a++)
 	}
 }
 //Dibujar neblina a la distancia
-for(var b = 0; b < 10; b++){
-	var radio = 100 + 25 * b, radio_2 = radio + 25
-	if b = 9
+for(var b = 0; b < 20; b++){
+	var radio = 50 + 5 * b, radio_2 = radio + 5
+	if b = 19
 		radio_2 = 2000
-	draw_set_alpha(b / 9)
+	draw_set_alpha(b / 19)
 	for(var a = 0; a < 32; a++){
-		var c = a * pi / 16
-		var cosa = cos(c), sina = sin(c), cosb = cos(c + pi / 16), sinb = sin(c + pi / 16)
+		var c = a * pi / 16, cosa = cos(c), sina = sin(c), cosb = cos(c + pi / 16), sinb = sin(c + pi / 16)
 		draw_triangle(x + radio * cosa, y + radio * sina, x + radio * cosb, y + radio * sinb, x + radio_2 * cosb, y + radio_2 * sinb, false)
 		draw_triangle(x + radio * cosa, y + radio * sina, x + radio_2 * cosa, y + radio_2 * sina, x + radio_2 * cosb, y + radio_2 * sinb, false)
 	}
