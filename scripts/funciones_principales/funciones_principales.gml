@@ -6,9 +6,11 @@ function crear_inicio(){
 	//  ELEMENTOS VENTANA DE INICIO
 	draw_set_color(c_black)
 	draw_set_font(font_titulo)
-	draw_text(room_width / 2, 100, "BACKSHOOT")
+	draw_set_halign(fa_center)
+	draw_text(room_width / 2, 300, "B A C K S H O O T")
+	draw_set_halign(fa_left)
 	draw_set_font(ft_media)
-	if draw_boton(room_width / 2, 200, "Jugar")
+	if draw_boton((room_width - string_width("Jugar")) / 2, 200, "Jugar")
 		return Gsetup
 	if draw_boton(room_width * 0.4, room_height - 100, "Salir") or keyboard_check(vk_escape)
 		game_end()
@@ -43,7 +45,7 @@ function crear_Gsetup(){
 			}
 		}
 	}
-	repeat(10){
+	repeat(control.enemigos_max){
 		do var a = irandom_range(5, xsize), b = irandom_range(5, ysize)
 		until visited[# a, b]
 		ds_grid_set(visited, a, b, false)
@@ -54,22 +56,20 @@ function crear_Gsetup(){
 }
 
 //  CREAR EL JUEGO
-function crear_juegos(){	
+function crear_juegos(){
 	draw_set_font(ft_little)
 	draw_set_color(#00FFFF)
     draw_rectangle(0, 32 * control.N_interfaz, room_width, room_height, false)
-	
 	var dd = 4
 	draw_set_color(#1E1E1E)
     draw_rectangle(dd, 32 * control.N_interfaz + dd, room_width - dd, room_height - dd, false)
-	
 	draw_set_color(#FFA500)
 	draw_text(500, 32 * control.N_interfaz + 32, "Sigilo")
 	draw_text(500, 32 * control.N_interfaz + 74, "Tranquilidad")
 	draw_text(800, 32 * control.N_interfaz + 32, "TIEMPO:")
 	draw_text(800, 32 * control.N_interfaz + 64, $"{floor(control.tiempo)} s")
 	draw_text(room_width - 150, 32 * control.N_interfaz + 32, "Objetivos:")
-	draw_text(room_width - 150, 32 * control.N_interfaz + 64, $"{instance_number(obj_enemigo)}/10")
+	draw_text(room_width - 150, 32 * control.N_interfaz + 64, $"{instance_number(obj_enemigo)}/{control.enemigos_max}")
 
 	minibar(40, 32 * control.N_interfaz + 16, 380, 32 * control.N_interfaz + 56 , control.sigilo, #FF0000, false)
 	minibar(40, 32 * control.N_interfaz + 74, 380, 32 * control.N_interfaz + 114, control.tranquilidad, #9B4DFF, false)
@@ -115,22 +115,27 @@ function crear_cierre(){
 	draw_set_color(make_color_rgb(100, 0, 32))
 	draw_rectangle(0, 0, room_width, room_height, false)
 	draw_set_color(c_black)
+	draw_set_halign(fa_center)
 	if not win{
 		draw_set_font(font_titulo)
 		draw_text(room_width / 2, 200, "Has Perdido")
+		var a = 200 + string_height("Has Perdido")
+		draw_set_font(ft_media)
 		if control.motivo_perdida = 0
-			draw_text(room_width / 2, 230, "Se te ha acabado el tiempo")
+			draw_text(room_width / 2, a, "Se te ha acabado el tiempo")
 		else if control.motivo_perdida = 1
-			draw_text(room_width / 2, 230, "Has asesinado a alguien mirándolo a los ojos...")
+			draw_text(room_width / 2, a, "Has asesinado a alguien mirándolo a los ojos...")
 		else if control.motivo_perdida = 2
-			draw_text(room_width / 2, 230, "Te han visto!")
+			draw_text(room_width / 2, a, "Te han visto!")
 	}
 	else{
 		draw_set_font(font_titulo)
 		draw_text(room_width / 2, 200, "Has ganado")
+		var a = 200 + string_height("Has ganado")
 		draw_set_font(ft_media)
-		draw_text(room_width / 2, 230, "Has matado a un montón de personas, felicidades")
+		draw_text(room_width / 2, a, "Has matado a un montón de personas, felicidades")
 	}
+	draw_set_halign(fa_left)
 	//  ELEMENTOS VENTANA DE INICIO
 	if draw_boton(room_width / 2, room_height - 200, "Salir")
 		return game_end()

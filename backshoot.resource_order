@@ -2,6 +2,7 @@
   "FolderOrderSettings":[],
   "ResourceOrderSettings":[
     {"name":"font_titulo","order":1,"path":"fonts/font_titulo/font_titulo.yy",},
+    {"name":"spr_sangre","order":3,"path":"sprites/spr_sangre/spr_sangre.yy",},
     {"name":"spr_vineta","order":2,"path":"sprites/spr_vineta/spr_vineta.yy",},
   ],
 }

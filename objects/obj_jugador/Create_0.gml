@@ -7,3 +7,4 @@ bala_y = 0
 bala_step = 0
 recoil = 0
 texto = ""
+balas = 30

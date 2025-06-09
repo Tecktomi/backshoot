@@ -36,6 +36,7 @@
     {"id":{"name":"spr_enemigo","path":"sprites/spr_enemigo/spr_enemigo.yy",},},
     {"id":{"name":"spr_jugador","path":"sprites/spr_jugador/spr_jugador.yy",},},
     {"id":{"name":"spr_muro","path":"sprites/spr_muro/spr_muro.yy",},},
+    {"id":{"name":"spr_sangre","path":"sprites/spr_sangre/spr_sangre.yy",},},
     {"id":{"name":"spr_vineta","path":"sprites/spr_vineta/spr_vineta.yy",},},
   ],
   "resourceType":"GMProject",

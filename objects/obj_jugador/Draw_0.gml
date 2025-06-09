@@ -31,6 +31,7 @@ if mouse_check_button(mb_left){
 	step++
 	if step = 8{
 		step = 0
+		balas--
 		disparar(id)
 	}
 }
@@ -45,6 +46,10 @@ if bala_step > 0{
 	draw_set_alpha(1)
 }
 draw_set_color(c_black)
+for(var a = 0; a < array_length(control.manchas_sangre); a++){
+	var mancha = control.manchas_sangre[a]
+	draw_sprite(mancha.sprite, 0, mancha.x, mancha.y)
+}
 //Recorrer todas las cajas para dibujar sus sombras
 for(var a = 0; a < instance_number(obj_muro); a++){
 	var muro = instance_find(obj_muro, a), mx = muro.x, my = muro.y

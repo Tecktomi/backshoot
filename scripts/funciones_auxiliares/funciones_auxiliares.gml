@@ -1,12 +1,12 @@
 //  BOTON GENERICO
-function draw_boton(x, y, text, margen = 10, color_fondo = control.c_relleno, color_borde = control.c_borde, color_texto = c_black, fuente = ft_media){
+function draw_boton(x, y, text, margen = 6, color_fondo = control.c_relleno, color_borde = control.c_borde, color_texto = c_black, fuente = ft_media){
 	var color = draw_get_color(), width = string_width(text), height = string_height(text)
 	if margen > 0{
 	    draw_set_color(color_borde)
-	    draw_rectangle(x - margen, y - margen, x + width + margen, y + height + margen, false)
+	    draw_rectangle(x - 2 * margen, y - margen - 2, x + width + 2 * margen, y + height + margen + 2, false)
 	}
     draw_set_color(color_fondo)
-    draw_rectangle(x, y, x + width, y + height, false)
+    draw_rectangle(x - margen, y - 2, x + width + margen, y + height + 2, false)
     draw_set_font(fuente)
     draw_set_color(c_black)
     draw_text(x, y, text)
@@ -54,6 +54,17 @@ function disparar(home = noone){
 				inst.alerta = 300
 				if sqrt(sqr(obj_jugador.x - a) + sqr(obj_jugador.y - b)) < 200 and abs(angle_difference(angle, angle_2)) > 120
 					control.tranquilidad -= (abs(angle_difference(angle, angle_2)) - 120) / 3
+				var surf = surface_create(200, 200), spr = spr_sangre
+				surface_set_target(surf)
+				draw_set_color(make_color_rgb(100, 0, 32))
+				for(c = -10; c < 70; c++){
+					d = degtorad(random_range(angle - 25, angle + 25))
+					draw_circle(100 + c * cos(d), 100 - c * sin(d), 1, false)
+				}
+				spr = sprite_create_from_surface(surf, 0, 0, 200, 200, true, false, 0, 0)
+				surface_reset_target()
+				surface_free(surf)
+				array_push(control.manchas_sangre, {sprite : spr, x : a - 100, y : b - 100})
 			}
 			return
 		}

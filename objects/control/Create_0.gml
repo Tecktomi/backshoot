@@ -16,6 +16,9 @@ win = false
 xsize = 40
 ysize = 20
 dark_alpha = 0
+enemigos_max = 10
+manchas_sangre = [{sprite : spr_sangre, x : 0, y : 0}]
+array_pop(manchas_sangre)
 cajas = ds_grid_create(xsize, ysize)
 ds_grid_clear(cajas, false)
 for(var a = 0; a < xsize; a++)
@@ -23,6 +26,8 @@ for(var a = 0; a < xsize; a++)
 		if random(1) < 0.2
 			ds_grid_set(cajas, a, b, true)
 ds_grid_set_region(cajas, 0, 0, 2, 2, false)
+sangre = ds_grid_create(32 * xsize, 32 * ysize)
+ds_grid_clear(sangre, false)
 
 //  COLORES Y UBICACIONES
 c_fondo   = make_color_rgb( 153,000,045 )
