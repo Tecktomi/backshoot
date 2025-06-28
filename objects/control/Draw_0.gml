@@ -22,3 +22,5 @@ if target = cierre and crear_cierre() = inicio
 //  SI ESTAMOS EN LOS AJUSTES
 if target = ajuste and crear_ajuste() = inicio
 	target = inicio
+if keyboard_check_pressed(vk_f4)
+	window_set_fullscreen(not window_get_fullscreen)
